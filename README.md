@@ -135,7 +135,9 @@ Randomized goals: Prevent overfitting to a single target.
 ---
 
 ## 📂 Project Structure
+```plaintext
 /src
 ├── run_trained_agent.py
 ├── simulate_turtlebot.py
 └── test_agent.py
+```
