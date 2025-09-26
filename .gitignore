@@ -1,0 +1,32 @@
+
+---
+
+### 🗂️ `.gitignore`
+
+```gitignore
+# ROS2 build artifacts
+build/
+install/
+log/
+*.pyc
+__pycache__/
+*.egg-info/
+
+# Colcon
+colcon*.log
+COLCON_IGNORE
+
+# VSCode
+.vscode/
+
+# Python
+*.pyo
+*.pyd
+*.pdb
+*.swp
+*.swo
+*.bak
+
+# OS files
+.DS_Store
+Thumbs.db
