@@ -1,0 +1,7 @@
+ros2 pkg create --build-type ament_python disaster_navigation_robot of course you have to be in the /src folder
+
+export TURTLEBOT3_MODEL=burger
+ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py
+
+check the movment of robot
+ros2 run turtlebot3_teleop teleop_keyboard

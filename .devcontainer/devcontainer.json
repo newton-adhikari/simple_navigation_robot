@@ -1,0 +1,26 @@
+{
+  "name": "ROS2 Humble Dev",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
+  "workspaceFolder": "/workspace",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
+  "runArgs": [
+  "--privileged",
+  "--platform=linux/amd64",
+  "-p", "8080:8080",
+  "-p", "5901:5901"
+],
+  "remoteUser": "root",
+  "postCreateCommand": "bash -c 'source /opt/ros/humble/setup.bash && colcon build || true'",
+  "postStartCommand": "/opt/scripts/start-vnc.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-vscode.cpptools"
+      ]
+    }
+  }
+}
