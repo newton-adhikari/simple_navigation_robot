@@ -4,46 +4,105 @@ This project implements a reinforcement learning (RL) navigation agent for **Tur
 
 ---
 
+
+---
+
 ## 🚀 How It Works
 
 ### Environment (`simulate_turtlebot.py`)
 
 - **Actions:**  
-  Normalized continuous actions in \([-1,1]\) mapped to robot velocities:
+  Continuous actions normalized to $[-1,1]$, mapped to robot velocities:
 
   - Linear velocity:
 
-  \[
-  v = \frac{a_{\text{lin}} + 1}{2} \cdot v_{\max}, \quad v_{\max} = 0.22\, \text{m/s}
-  \]
+    $$
+    v = \frac{a_{\text{lin}} + 1}{2} \cdot v_{\max}, \quad v_{\max} = 0.22 \,\text{m/s}
+    $$
 
   - Angular velocity:
 
-  \[
-  \omega = a_{\text{ang}} \cdot \omega_{\max}, \quad \omega_{\max} = 2.84\, \text{rad/s}
-  \]
+    $$
+    \omega = a_{\text{ang}} \cdot \omega_{\max}, \quad \omega_{\max} = 2.84 \,\text{rad/s}
+    $$
 
 - **Observations:**  
-  360-dimensional LIDAR scan, normalized:
+  360‑dimensional LIDAR scan, normalized:
 
-  \[
+  $$
   \text{obs}_i = \frac{\text{clip}(r_i, 0, 10)}{10}
-  \]
+  $$
 
 - **Reset:**  
-  - Stops robot  
+  - Stops the robot  
   - Calls `/reset_simulation`  
   - Waits for fresh `/scan` and `/odom`  
   - Initializes distance to goal:
 
-  \[
-  d_0 = \| g - p_0 \|_2
-  \]
+    $$
+    d_0 = \| g - p_0 \|_2
+    $$
 
 - **Step:**  
   - Publishes velocity command  
   - Spins ROS2 once  
   - Computes reward and termination  
+
+---
+
+## 🧮 Reward Function (Mathematical Summary)
+
+The total reward is shaped as:
+
+$$
+R = R_{\text{progress}} + R_{\text{heading}} + R_{\text{goal}} + R_{\text{collision}} + R_{\text{prox}} + R_{\text{time}} + R_{\text{survival}}
+$$
+
+- **Progress toward goal:**
+
+  $$
+  R_{\text{progress}} = \alpha \cdot (d_{t-1} - d_t), \quad \alpha \approx 5 \text{–} 20
+  $$
+
+- **Heading alignment:**
+
+  $$
+  R_{\text{heading}} = \beta \cdot (\pi - |\Delta \theta|), \quad \Delta \theta = \text{wrap}(\phi - \theta)
+  $$
+
+- **Goal bonus:**
+
+  $$
+  R_{\text{goal}} = B \quad \text{if } d_t < \epsilon_{\text{goal}}, \quad B \in [50, 100]
+  $$
+
+- **Collision penalty:**
+
+  $$
+  R_{\text{collision}} = -C \quad \text{if } d_{\min} < \epsilon_{\text{collision}}, \quad C \in [10, 20]
+  $$
+
+- **Smooth proximity penalty:**
+
+  $$
+  R_{\text{prox}} = -\frac{\gamma}{d_{\min} + \varepsilon}
+  $$
+
+- **Time shaping:**
+
+  $$
+  R_{\text{time}} = -0.01, \quad R_{\text{survival}} = +0.05
+  $$
+
+---
+
+## 🏋️ Training (`test_agent.py`)
+
+- Uses **PPO** with MLP policy.
+- Minimal example to train:
+
+  ```bash
+  python3 test_agent.py
 
 ---
 
