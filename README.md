@@ -61,6 +61,40 @@ The total reward is shaped as:
 
 ---
 
+## 🔣 Symbols
+
+Here’s what each symbol means in the equations above:
+
+- `v` → Linear velocity of the robot (m/s)  
+- `ω` → Angular velocity of the robot (rad/s)  
+- `a_lin` → Normalized linear action chosen by the agent (`[-1,1]`)  
+- `a_ang` → Normalized angular action chosen by the agent (`[-1,1]`)  
+- `v_max` → Maximum forward speed of TurtleBot3 Burger (`0.22 m/s`)  
+- `ω_max` → Maximum angular speed of TurtleBot3 Burger (`2.84 rad/s`)  
+- `obs_i` → Normalized LIDAR reading for beam `i`  
+- `r_i` → Raw LIDAR distance reading for beam `i` (meters)  
+- `d_t` → Distance from robot to goal at timestep `t`  
+- `d_{t-1}` → Distance to goal at previous timestep  
+- `d0` → Initial distance to goal at episode start  
+- `g` → Goal position vector `[g_x, g_y]`  
+- `p0` → Initial robot position vector `[x_0, y_0]`  
+- `Δθ` → Difference between robot’s heading and goal direction (radians)  
+- `φ` → Bearing angle from robot to goal (radians)  
+- `θ` → Robot’s current yaw angle (radians)  
+- `d_min` → Minimum LIDAR distance (closest obstacle in meters)  
+- `ε_goal` → Goal threshold distance (≈ 0.30 m)  
+- `ε_collision` → Collision threshold distance (≈ 0.20 m)  
+- `α` → Scaling factor for progress reward (≈ 5–20)  
+- `β` → Scaling factor for heading alignment reward  
+- `B` → Goal completion bonus (≈ 50–100)  
+- `C` → Collision penalty (≈ 10–20)  
+- `γ` → Scaling factor for smooth proximity penalty  
+- `ε` → Small constant to avoid division by zero  
+- `R_time` → Small negative reward per step (time penalty)  
+- `R_survival` → Small positive reward per step (survival bonus)  
+
+---
+
 ## 🏋️ Training (`test_agent.py`)
 
 - Uses **PPO** with MLP policy.
